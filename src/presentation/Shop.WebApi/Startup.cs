@@ -2,15 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Shop.Application.Queries;
+using Shop.Data.Contexts;
 
 namespace Shop.WebApi
 {
@@ -28,6 +32,12 @@ namespace Shop.WebApi
         {
 
             services.AddControllers();
+
+            var connectString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ShopDbContext>(options => options.UseNpgsql(connectString));
+
+            services.AddMediatR(typeof(List.Query).Assembly);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shop.WebApi", Version = "v1" });
