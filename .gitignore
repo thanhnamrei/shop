@@ -377,6 +377,7 @@ FodyWeavers.xsd
 *.iml
 *.ipr
 *.iws
+src/presentation/clients/shop_app/.idea/
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -386,6 +387,8 @@ FodyWeavers.xsd
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
+src/presentation/clients/shop_app/.dart_tool/
+src/presentation/clients/shop_app/.flutter-plugins
 .flutter-plugins-dependencies
 .packages
 .pub-cache/
