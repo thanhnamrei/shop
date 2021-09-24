@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using Dapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Shop.Data.Contexts;
+using Shop.Data;
+using Shop.Data.Context;
 using Shop.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,17 +17,16 @@ namespace Shop.Application.Queries
     {
         public class Query : IRequest<List<Product>> { }
 
-        public class Handler : IRequestHandler<Query, List<Product>>
+        public class Handler : Repository, IRequestHandler<Query, List<Product>>
         {
-            private readonly ShopDbContext _dbContext;
-
-            public Handler(ShopDbContext dbContext)
+            private const string functionName = "production.get_products";
+            public Handler(ShopDbContext dbContext) :base(dbContext)
             {
-                _dbContext = dbContext;
             }
+
             public async Task<List<Product>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _dbContext.Products.ToListAsync();
+                return (List<Product>)await Query<Product>(functionName);
             }
         }
     }

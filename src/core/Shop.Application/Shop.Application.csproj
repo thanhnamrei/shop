@@ -9,6 +9,10 @@
     <ProjectReference Include="..\..\infrastructure\Shop.Data\Shop.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Core\Extensions\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>

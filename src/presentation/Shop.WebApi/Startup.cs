@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Shop.Application.Queries;
-using Shop.Data.Contexts;
+using Shop.Data.Context;
 
 namespace Shop.WebApi
 {
