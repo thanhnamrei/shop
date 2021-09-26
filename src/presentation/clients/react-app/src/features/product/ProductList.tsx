@@ -1,57 +1,49 @@
+/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react';
 import { wait } from '../../app/common/funcs';
 import { Product } from '../../app/models/product/Product';
 import ProductItem from './ProductItem';
 import productsData from '../../app/data/product.json';
-import styled from 'styled-components';
+import { css } from '@emotion/react';
+import { Page } from '../../app/layout/Page';
 
-const Container = styled.div`
-  margin-top: 50px;
-`;
-
-const List = styled.ul`
-  list-style: none;
+const list = css`
   display: flex;
   gap: 10px;
   justify-content: center;
 `;
 
-const Item = styled.li`
-  width: 192px;
-  border: 1px solid grey;
-`;
-
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const doGetProducts = async () => {
       await wait(1000);
       setProducts(productsData);
     };
+    setLoading(true);
     doGetProducts();
+    setLoading(false);
   }, []);
-  return (
-    <Container>
-      {products?.length && (
-        <List>
-          <Item>
-            <ProductItem product={products[0]} />
-          </Item>
-          <Item>
-            <ProductItem product={products[0]} />
-          </Item>
-          <Item>
-            <ProductItem product={products[0]} />
-          </Item>
-        </List>
-      )}
+  if (loading) return <p>Loading...</p>;
 
-      {/* {products.map((product) => (
+  return (
+    <Page>
+      <div css={list}>
+        {products?.length && (
+          <>
+            <ProductItem product={products[0]} />
+            <ProductItem product={products[0]} />
+            <ProductItem product={products[0]} />
+          </>
+        )}
+
+        {/* {products.map((product) => (
           <Item key={product.id}>
             <ProductItem product={product} />
           </Item>
         ))} */}
-    </Container>
+      </div>
+    </Page>
   );
 }

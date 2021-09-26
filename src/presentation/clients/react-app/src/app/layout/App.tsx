@@ -1,18 +1,19 @@
-import HomePage from '../../features/home/HomePage';
+import ProductList from '../../features/product/ProductList';
 import Header from './Header';
-
-// const AppContainer = styled.div`
-//   font-family: ${fontFamily};
-// `;
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ProductDetail from '../../features/product/ProductDetail';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
+    <BrowserRouter>
+      <div>
         <Header />
-      </header>
-      <HomePage />
-    </div>
+        <Routes>
+          <Route path="" element={<ProductList />} />
+          <Route path="/:id" element={<ProductDetail />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
