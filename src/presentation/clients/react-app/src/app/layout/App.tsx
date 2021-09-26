@@ -1,18 +1,19 @@
-import styled from 'styled-components';
 import ProductList from '../../features/product/ProductList';
-import { fontFamily } from '../common/theme/font';
 import Header from './Header';
-
-const AppContainer = styled.div`
-  font-family: ${fontFamily};
-`;
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ProductDetail from '../../features/product/ProductDetail';
 
 function App() {
   return (
-    <AppContainer>
-      <Header />
-      <ProductList />
-    </AppContainer>
+    <BrowserRouter>
+      <div>
+        <Header />
+        <Routes>
+          <Route path="" element={<ProductList />} />
+          <Route path="/:id" element={<ProductDetail />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
