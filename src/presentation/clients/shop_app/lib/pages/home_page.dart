@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/api/api_provider.dart';
+import 'package:shop_app/features/weather/weather_table.dart';
+import 'package:shop_app/models/weather_forecast.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -10,11 +13,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  ApiProvider apiProvider = ApiProvider();
+  List<WeatherForecast> weathers = [];
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+  void _incrementCounter() async {
+    var json = await apiProvider.get('WeatherForecast');
+    // ignore: unnecessary_this
+    this.setState(() {
+      weathers =
+          (json as List).map((e) => WeatherForecast.fromJson(e)).toList();
     });
   }
 
@@ -24,19 +31,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+      body: WeatherTable(
+        weathers: weathers,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
