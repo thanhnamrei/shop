@@ -13,8 +13,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Shop.Application.Common.Behaviors;
 using Shop.Application.Queries;
 using Shop.Data.Context;
+using Shop.WebApi.Hubs;
 
 namespace Shop.WebApi
 {
@@ -32,11 +34,26 @@ namespace Shop.WebApi
         {
 
             services.AddControllers();
+ 
+            services.AddSignalR();
+
+            services.AddCors(opts =>
+            {
+                opts.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("*")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             var connectString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ShopDbContext>(options => options.UseNpgsql(connectString));
 
             services.AddMediatR(typeof(List.Query).Assembly);
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
 
             services.AddSwaggerGen(c =>
             {
@@ -58,11 +75,14 @@ namespace Shop.WebApi
 
             app.UseRouting();
 
+            app.UseCors();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }
