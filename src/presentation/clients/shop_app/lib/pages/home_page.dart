@@ -31,9 +31,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: WeatherTable(
-        weathers: weathers,
-      ),
+      body: const WeatherTable(),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

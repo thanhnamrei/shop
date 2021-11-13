@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/pages/home_page.dart';
+import 'package:shop_app/features/weather/weather_page.dart';
+// import 'package:shop_app/pages/home_page.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(title: 'Home Page'),
+      home: const WeaterPage(),
     );
   }
 }
