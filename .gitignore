@@ -405,7 +405,8 @@ app.*.symbols
 app.*.map.json
 
 # Android Studio will place build artifacts here
-src/presentation/clients/travel_app/android/app/debug
-src/presentation/clients/travel_app/android/app/profile
-src/presentation/clients/travel_app/android/app/release
+src/presentation/clients/shop_app/.dart_tool/
+src/presentation/clients/shop_app/android/
+src/presentation/clients/shop_app/ios/
+src/presentation/clients/shop_app/build/
 
