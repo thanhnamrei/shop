@@ -1,6 +1,4 @@
-import React from "react";
-
-function App() {
+function HomePage() {
   return (
     <div className="App">
       <header className="App-header text-center">Learn React</header>
@@ -8,4 +6,4 @@ function App() {
   );
 }
 
-export default App;
+export default HomePage;
