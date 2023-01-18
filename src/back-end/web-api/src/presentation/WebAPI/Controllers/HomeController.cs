@@ -6,5 +6,6 @@ namespace WebAPI.Controllers;
 [Route("[controller]")]
 public class HomeController : ControllerBase
 {
+    [HttpGet("greeting")]
     public string Get() => "Hello World!";
 }
