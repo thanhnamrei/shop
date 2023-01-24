@@ -4,7 +4,7 @@ using ProductAPI.Services;
 
 namespace ProductAPI;
 
-public class ListHandler
+public static class ListHandler
 {
     public class Query : IRequest<List<Product>> { }
 

@@ -1,5 +1,8 @@
+using System.Reflection;
 using Data;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ProductAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -9,10 +12,20 @@ var services = builder.Services;
 var connectionString = configuration.GetConnectionString("NorthwindConnection");
 services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddControllers();
+services.AddProductAPIServices();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("*");
+    });
+});
+
+services.AddControllers();
+
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -24,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
