@@ -32,9 +32,9 @@ public enum SuspensionTypes
 
 public abstract class Bicycle : IBicycle
 {
-    public string ModelName { get; set; }
+    public string ModelName { get; set; } = string.Empty;
     public int Year { get; }
-    public string SerialNumber { get; }
+    public string SerialNumber { get; } = string.Empty;
     public BicycleGeometries Geometry { get; set; }
     public BicyclePaintColors Color { get; set; }
     public SuspensionTypes Suspension { get; set; }
