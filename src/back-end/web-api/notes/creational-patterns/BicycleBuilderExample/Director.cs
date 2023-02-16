@@ -2,19 +2,19 @@
 
 internal class Director
 {
-    private IBicycleBuilder builder;
+    private IBicycleBuilder _builder;
     public Director(IBicycleBuilder builder)
     {
-        this.builder = builder;
+        this._builder = builder;
     }
 
     public void ChangeBuilder(IBicycleBuilder builder)
     {
-        this.builder = builder;
+        this._builder = builder;
     }
 
     public IBicycleProduct Make()
     {
-        return builder.GetProduct();
+        return _builder.GetProduct();
     }
 }

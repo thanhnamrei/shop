@@ -7,11 +7,8 @@ public class WeldingArmPool
     private int _maxSize = 10;
     public int MaxSize
     {
-        get { return _maxSize; }
-        set
-        {
-            _maxSize = value;
-        }
+        get => _maxSize;
+        set => _maxSize = value;
     }
 
     private List<WeldingArm> Pool { get; set; }
@@ -21,7 +18,7 @@ public class WeldingArmPool
     {
         Pool = new List<WeldingArm>();
 
-        for (int i = 0; i < _maxSize; i++)
+        for (var i = 0; i < _maxSize; i++)
         {
             Pool.Add(new WeldingArm());
         }
