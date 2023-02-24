@@ -1,62 +1,66 @@
-using Microsoft.AspNetCore.RateLimiting;
-using System.Threading.RateLimiting;
+using Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
+using ProductAPI;
 
 var builder = WebApplication.CreateBuilder(args);
-//var configuration = builder.Configuration;
-//var services = builder.Services;
+var configuration = builder.Configuration;
+var services = builder.Services;
 
-//// Add services to the container.
-//var connectionString = configuration.GetConnectionString("NorthwindConnection");
-//services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+// connect db
+var connectionString = configuration.GetConnectionString("NorthwindConnection");
+services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
-//services.AddProductAPIServices();
+// Add services to the container
+services.AddProductAPIServices();
 
-//services.AddCors(options =>
-//{
-//    options.AddDefaultPolicy(policy =>
-//    {
-//        policy.WithOrigins("*");
-//    });
-//});
-
-//services.AddControllers();
-
-//services.AddEndpointsApiExplorer();
-//services.AddSwaggerGen();
-
-//var app = builder.Build();
-
-//// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
-
-//app.UseHttpsRedirection();
-
-//app.UseCors();
-
-//app.UseAuthorization();
-
-//app.MapControllers();
-
-builder.Services.AddRateLimiter(_ => _
-    .AddFixedWindowLimiter(policyName: "fixed", options =>
+services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
     {
-        options.PermitLimit = 4;
-        options.Window = TimeSpan.FromSeconds(12);
-        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        options.QueueLimit = 2;
-    }));
+        policy.WithOrigins("*");
+    });
+});
+
+services.AddResponseCaching();
+
+services.AddControllers();
+
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseRateLimiter();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-static string GetTicks() => (DateTime.Now.Ticks & 0x11111).ToString("00000");
+app.UseHttpsRedirection();
 
-app.MapGet("/", () => Results.Ok($"Hello {GetTicks()}"))
-    .RequireRateLimiting("fixed");
+app.UseCors();
+
+//
+app.UseResponseCaching();
+
+app.Use(async (context, next) =>
+{
+    context.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
+    {
+        Public = true,
+        MaxAge = TimeSpan.FromSeconds(10)
+    };
+
+    context.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
+
+    await next();
+});
+
+app.UseAuthorization();
+
+app.MapControllers();
+
 
 app.Run();
