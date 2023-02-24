@@ -1,4 +1,4 @@
-import { Row } from '@/components/box/Row';
+import { Row } from '@/components/tBox/Row';
 
 type PublicLayoutProps = {
   children: React.ReactNode;
