@@ -57,7 +57,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderAPI", "src\services\Or
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{32ABA530-7DFB-4A74-828F-40E24A733D39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestServer", "tests\TestServer\TestServer.csproj", "{B4962543-6C44-4D39-B0F7-CEA50B95F337}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestServer", "tests\TestServer\TestServer.csproj", "{B4962543-6C44-4D39-B0F7-CEA50B95F337}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocationAPI", "src\services\LocationAPI\LocationAPI.csproj", "{1BA77C57-3CDA-4623-B5ED-7CFC0FFC4343}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +139,10 @@ Global
 		{B4962543-6C44-4D39-B0F7-CEA50B95F337}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4962543-6C44-4D39-B0F7-CEA50B95F337}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4962543-6C44-4D39-B0F7-CEA50B95F337}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BA77C57-3CDA-4623-B5ED-7CFC0FFC4343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BA77C57-3CDA-4623-B5ED-7CFC0FFC4343}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BA77C57-3CDA-4623-B5ED-7CFC0FFC4343}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BA77C57-3CDA-4623-B5ED-7CFC0FFC4343}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,6 +173,7 @@ Global
 		{AF019C83-5B5D-4D0C-89E4-B7A7D3BEB7B5} = {5BFD355B-F622-45C7-BD20-68FDAAC19864}
 		{485C6A3C-A657-4BD9-B385-A713616CCD78} = {B6E20000-88B2-44F0-9CDB-AE05D0A854D6}
 		{B4962543-6C44-4D39-B0F7-CEA50B95F337} = {32ABA530-7DFB-4A74-828F-40E24A733D39}
+		{1BA77C57-3CDA-4623-B5ED-7CFC0FFC4343} = {B6E20000-88B2-44F0-9CDB-AE05D0A854D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F91E9DAC-E265-4C7C-AFF4-92022AEED6F1}

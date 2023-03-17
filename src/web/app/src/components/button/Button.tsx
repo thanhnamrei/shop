@@ -1,15 +1,13 @@
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
-const variants = {
-  primary: {},
-  default: {},
-  none: {},
-};
-
 export type ButtonProps = {
-  variant: keyof typeof variants;
+  appearance?:
+    | 'primary'
+    | 'outline'
+    | 'subtle'
+    | 'transparent';
+  icon?: ReactNode;
 };
 
-export const Button = styled.button<ButtonProps>`
-  ${({ variant }) => 'background-color:white'}
-`;
+export const Button = styled.button<ButtonProps>``;

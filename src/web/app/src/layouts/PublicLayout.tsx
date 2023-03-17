@@ -1,6 +1,8 @@
 import { Column } from '@/components/box/Column';
 import { Row } from '@/components/box/Row';
 import { Button } from '@/components/button/Button';
+import { Footer } from '@/components/footer';
+import { Label } from '@/components/label';
 
 type PublicLayoutProps = {
   children: React.ReactNode;
@@ -9,19 +11,23 @@ type PublicLayoutProps = {
 const View = ({ children }: PublicLayoutProps) => {
   return (
     <div>
-      <header>
-        <Row gap={6}>
+      <header className="p-5">
+        <Row gap={6} className="bg-slate-300 justify-end">
           <span>Trợ giúp</span>
+          <span>Hệ thống cửa hàng</span>
           <span>English</span>|<span>Tiếng Việt</span>
         </Row>
-        <Column>
-          <span>Trợ giúp</span>
-          <span>English</span>|<span>Tiếng Việt</span>
-        </Column>
-        <Button variant="default">AAAA</Button>
+        <Row>
+          <Label>This a label</Label>
+        </Row>
+        <Row>
+          <Button className="border px-2 py-1 hover:bg-gray-200">
+            This a label
+          </Button>
+        </Row>
       </header>
       <main>{children}</main>
-      <footer></footer>
+      <Footer></Footer>
     </div>
   );
 };

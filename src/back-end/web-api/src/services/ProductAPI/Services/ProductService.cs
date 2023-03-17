@@ -21,6 +21,9 @@ public class ProductService : IProductService
 
     public async Task<List<Product>> GetProductsAsync()
     {
-        return await _context.Products.ToListAsync();
+        return await _context.Products
+            .Include(p => p.Category)
+            .Include(p => p.Supplier)
+            .ToListAsync();
     }
 }
