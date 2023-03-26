@@ -1,4 +1,3 @@
-const View = () => {
-  return <div></div>;
-};
-export default View;
+import styled from 'styled-components';
+
+export const Text = styled.span``;
