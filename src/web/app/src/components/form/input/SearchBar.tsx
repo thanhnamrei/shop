@@ -1,5 +1,10 @@
 const View = () => {
-  return <div></div>;
+  return (
+    <input
+      type="search"
+      placeholder="Tìm kiếm ..."
+    ></input>
+  );
 };
 
 export default View;

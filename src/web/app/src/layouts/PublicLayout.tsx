@@ -1,7 +1,8 @@
 import Avatar from '@/components/avatar';
 import { Row } from '@/components/box/Row';
-import { Button } from '@/components/button/Button';
+import Button from '@/components/button/Button';
 import { Footer } from '@/components/footer';
+import SearchBar from '@/components/form/input/SearchBar';
 import { Label } from '@/components/label';
 import { Text } from '@/components/text';
 
@@ -11,7 +12,7 @@ type PublicLayoutProps = {
 
 const View = ({ children }: PublicLayoutProps) => {
   return (
-    <div>
+    <Container>
       <header className="p-5">
         <Row gap={6} className="bg-slate-300 ">
           <Avatar />
@@ -20,17 +21,16 @@ const View = ({ children }: PublicLayoutProps) => {
           <Text>English</Text>|<Text>Tiếng Việt</Text>
         </Row>
         <Row>
-          <Label>This a label</Label>
-        </Row>
-        <Row>
-          <Button className="border px-2 py-1 hover:bg-gray-200">
-            This a label
-          </Button>
+          <Text>Logo</Text>
+          <SearchBar />
+          <Button>Favorite</Button>
+          <Button>Avatar</Button>
+          <Button>Cart</Button>
         </Row>
       </header>
       <main>{children}</main>
       <Footer></Footer>
-    </div>
+    </Container>
   );
 };
 export default View;
