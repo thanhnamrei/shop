@@ -1,6 +1,3 @@
-import classNames from 'classnames';
-import clsx from 'clsx';
-import React from 'react';
 import styled from 'styled-components';
 
 type RowProps = {
