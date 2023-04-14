@@ -1,4 +1,6 @@
-const View = () => {
-  return <div></div>;
-};
-export default View;
+export * from './Table';
+export * from './TableHeader';
+export * from './TableBody';
+export * from './TableHeaderCell';
+export * from './TableCell';
+export * from './TableRow';

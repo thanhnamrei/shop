@@ -1,3 +1,3 @@
 import styled from 'styled-components';
 
-const TableBody = styled.tbody``;
+export const Table = styled.table``;
