@@ -1,25 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities;
 
 #nullable disable
+
+[Table("Product", Schema = "Production")]
 public class Product
 {
     [Key]
-    public int ProductId { get; set; }
-    public string ProductName { get; set; }
-
-    public string QuantityPerUnit { get; set; }
-    public decimal UnitPrice { get; set; }
-    public short UnitsInStock { get; set; }
-    public short UnitsOnOrder { get; set; }
-    public short ReorderLevel { get; set; }
-    public bool Discontinued { get; set; }
-
-    public int CategoryID { get; set; }
-    public Category Category { get; set; }
-
-    public int SupplierID { get; set; }
-    public Supplier Supplier { get; set; }
-
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string ProductNumber { get; set; }
+    public string Size { get; set; }
+    public float Weight { get; set; }
+    public string Color { get; set; }
+    public decimal StandardCost { get; set; }
+    public int ProductSubcategoryId { get; set; }
+    public DateTime? CreatedDate { get; set; }
+    public int CreatedBy { get; set; }
+    public int ModifiedDate { get; set; }
+    public DateTime? ModifiedBy { get; set; }
 }

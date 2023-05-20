@@ -1,0 +1,6 @@
+﻿CREATE TABLE [Production].[ProductCategory]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Name] NVARCHAR(100) NOT NULL, 
+    [rowguid] UNIQUEIDENTIFIER NULL DEFAULT NEWID(),
+)

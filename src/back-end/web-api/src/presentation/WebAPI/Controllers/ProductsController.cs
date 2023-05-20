@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProductAPI;
+using ProductAPI.Queries;
 
 namespace WebAPI.Controllers;
 
@@ -12,12 +14,17 @@ public class ProductsController : Controller
 
     public ProductsController(IMediator mediator) => _mediator = mediator;
 
-
-    [HttpGet]
+    [HttpGet("")]
     public async Task<IActionResult> GetProducts()
     {
-        var products = await _mediator.Send(new ListHandler.Query());
+        var products = await _mediator.Send(new ProductsList.Query());
+        return Ok(products);
+    }
+
+    [HttpGet("Categories")]
+    public async Task<IActionResult> GetProductSubcategories()
+    {
+        var products = await _mediator.Send(new ProductSubcategoriesList.Query());
         return Ok(products);
     }
 }
-
