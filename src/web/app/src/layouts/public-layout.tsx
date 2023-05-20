@@ -7,7 +7,7 @@ import { Footer } from '@/components/footer';
 import SearchBar from '@/components/form/input/SearchBar';
 import { Header } from '@/components/header';
 import { Label } from '@/components/label';
-import Link from '@/components/link/Link';
+import Link from '@/components/link/link';
 import { Text } from '@/components/text';
 import { FaShoppingCart } from 'react-icons/fa';
 
