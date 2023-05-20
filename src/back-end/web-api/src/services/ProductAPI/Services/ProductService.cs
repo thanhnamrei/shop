@@ -7,6 +7,8 @@ namespace ProductAPI.Services;
 public interface IProductService
 {
     Task<List<Product>> GetProductsAsync();
+
+    Task<List<ProductSubcategory>> GetProductSubcategories();
 }
 
 public class ProductService : IProductService
@@ -18,12 +20,16 @@ public class ProductService : IProductService
         _context = context;
     }
 
-
     public async Task<List<Product>> GetProductsAsync()
     {
         return await _context.Products
-            .Include(p => p.Category)
-            .Include(p => p.Supplier)
+            //.Include(p => p.Category)
+            //.Include(p => p.Supplier)
             .ToListAsync();
+    }
+
+    public async Task<List<ProductSubcategory>> GetProductSubcategories()
+    {
+        return await _context.ProductsSubcategories.ToListAsync();
     }
 }

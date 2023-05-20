@@ -8,7 +8,7 @@ var configuration = builder.Configuration;
 var services = builder.Services;
 
 // connect db
-var connectionString = configuration.GetConnectionString("NorthwindConnection");
+var connectionString = configuration.GetConnectionString("SqlServerConnection");
 services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container

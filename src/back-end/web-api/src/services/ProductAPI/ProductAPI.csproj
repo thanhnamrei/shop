@@ -22,4 +22,8 @@
 	<ItemGroup>
 	  <None Remove="MediatR.Extensions.Microsoft.DependencyInjection" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Commands\" />
+	</ItemGroup>
 </Project>
