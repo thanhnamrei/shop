@@ -1,8 +1,8 @@
 import { API_URL } from '@/config/constants';
-import Axios from 'axios';
+import axios from 'axios';
 
-export const apiClient = Axios.create({
-    baseURL: API_URL,
+export const apiClient = axios.create({
+    baseURL: 'https://localhost:7165/api',
     headers: {
         'Content-Type': 'application/json'
     }
