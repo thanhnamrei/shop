@@ -1,5 +1,8 @@
-const View = () => {
-  return <div></div>;
-};
+import styled from "styled-components";
 
-export default View;
+export const Card = styled.div`
+    border: 1px solid gray;
+    &:hover {
+        
+    }
+`
