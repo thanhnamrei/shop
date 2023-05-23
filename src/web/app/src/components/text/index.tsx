@@ -33,6 +33,5 @@ const _makeFontWeight = (weight?: FontWeights) => {
 
 export const Text = styled.p<TextProps>`
   font-weight: ${({ weight }) => _makeFontWeight(weight)};
-  font-size: ${({ size }) => `${size ?? 14}px`};
   /* ${({ italic }) => italic && 'font-style:italic;'} */
 `;

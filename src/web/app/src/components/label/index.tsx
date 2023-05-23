@@ -5,5 +5,5 @@ export type LabelProps = {
 };
 export const Label = styled.label<LabelProps>`
   ${({ required }) =>
-    required ? `::after {content: '*'; color: red;}` : ''}
+    required ? `::after {content: '*';}` : ''}
 `;

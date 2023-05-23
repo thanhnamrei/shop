@@ -35,7 +35,7 @@ const _makeMainAxis = (align?: MainAxisAlignment) => {
 
 export const Row = styled.div<RowProps>`
   display: flex;
-  column-gap: ${(props) => (props.gap ?? 0) * 4}px;
+  column-gap: ${(props) => props.gap}px;
   align-items: center;
   justify-content: ${(props) =>
     _makeMainAxis(props.mainAxisAlignment)};
