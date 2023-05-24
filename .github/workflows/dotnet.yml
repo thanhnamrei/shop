@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "main" ]
     paths: 
-     - src/back-end/web-api/**
+     - src/back-end/web-api/src/presentation/WebAPI**
   pull_request:
     branches: [ "main" ]
 jobs:
