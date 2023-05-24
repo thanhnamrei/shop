@@ -1,7 +1,5 @@
-﻿using Domain.Entities;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ProductAPI;
 using ProductAPI.Queries;
 
 namespace WebAPI.Controllers;
@@ -22,9 +20,6 @@ public class ProductsController : Controller
     }
 
     [HttpGet("Categories")]
-    public async Task<IActionResult> GetProductSubcategories()
-    {
-        var products = await _mediator.Send(new ProductSubcategoriesList.Query());
-        return Ok(products);
-    }
+    public async Task<IActionResult> GetProductSubcategories() => Ok(await _mediator.Send(new ProductSubcategoriesList.Query()));
+
 }
