@@ -6,7 +6,7 @@ name: .NET
 on:
   push:
     branches: [ "main" ]
-    paths: ["../src/back-end/web-api/src/presentation/WebAPI**"]
+    paths: ["src/back-end/web-api/src/presentation/WebAPI/**"]
   pull_request:
     branches: [ "main" ]
 jobs:
