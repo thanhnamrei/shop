@@ -1,18 +1,17 @@
 ﻿using Domain.Entities;
 using MediatR;
+using ProductAPI.Model;
 using ProductAPI.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProductAPI.Queries;
+public class GetProductsQuery
 
-public class ProductsList
 {
     public class Query : IRequest<List<Product>>
-    { }
+    {
+        public QueryParams? QueryParams { get; set; }
+
+    }
 
     public class Handler : IRequestHandler<Query, List<Product>>
     {
@@ -25,7 +24,9 @@ public class ProductsList
 
         public async Task<List<Product>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return await _productService.GetProductsAsync();
+            var products = await _productService.GetProductsAsync(request.QueryParams);
+
+            return products;
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using Data;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using ProductAPI.Model;
 
 namespace ProductAPI.Services;
 
 public interface IProductService
 {
-    Task<List<Product>> GetProductsAsync();
+    Task<List<Product>> GetProductsAsync(QueryParams? query);
 
     Task<List<ProductSubcategory>> GetProductSubcategories();
 }
@@ -20,11 +21,12 @@ public class ProductService : IProductService
         _context = context;
     }
 
-    public async Task<List<Product>> GetProductsAsync()
+    public async Task<List<Product>> GetProductsAsync(QueryParams? query)
     {
         return await _context.Products
-            //.Include(p => p.Category)
-            //.Include(p => p.Supplier)
+            //.Include(p => p.ProductSubcategory)
+            .Include(p => p.ProductReviews)
+            //.Where(p => query == null || p.ProductSubcategoryId == query.CategoryId)
             .ToListAsync();
     }
 

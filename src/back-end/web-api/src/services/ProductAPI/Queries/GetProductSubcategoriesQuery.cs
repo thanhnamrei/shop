@@ -4,7 +4,7 @@ using ProductAPI.Services;
 
 namespace ProductAPI.Queries;
 
-public class ProductSubcategoriesList
+public class GetProductSubcategoriesQuery
 {
     public class Query : IRequest<List<ProductSubcategory>>
     { }

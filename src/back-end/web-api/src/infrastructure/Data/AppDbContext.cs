@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
+﻿using Data.EntityTypeConfig;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace Data;
 
@@ -11,12 +11,15 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Product> Products => Set<Product>();
-    public DbSet<ProductCategory> Categories => Set<ProductCategory>();
-    public DbSet<Supplier> Suppliers => Set<Supplier>();
     public DbSet<ProductSubcategory> ProductsSubcategories => Set<ProductSubcategory>();
+    public DbSet<ProductReview> ProductReviews => Set<ProductReview>();
+
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        new ProductEntityTypeConfiguration().Configure(modelBuilder.Entity<Product>());
+        new ProductSubcategoryEntityTypeConfiguration().Configure(modelBuilder.Entity<ProductSubcategory>());
+        new ProductReviewEntityTypeConfiguration().Configure(modelBuilder.Entity<ProductReview>());
     }
 }

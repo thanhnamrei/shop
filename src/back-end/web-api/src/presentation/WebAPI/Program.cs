@@ -11,7 +11,7 @@ var connectionString = configuration.GetConnectionString("SqlServerConnection");
 services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container
-services.AddProductAPIServices();
+services.AddProductApiServices();
 
 services.AddCors(options =>
 {
