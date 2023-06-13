@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using ProductAPI.Queries;
 
 namespace WebAPI.Controllers;
@@ -9,8 +10,13 @@ public class ProductsController : Controller
 {
     // private readonly  mediator
     private readonly IMediator _mediator;
+    private readonly IDistributedCache _cache;
 
-    public ProductsController(IMediator mediator) => _mediator = mediator;
+    public ProductsController(IMediator mediator, IDistributedCache cache)
+    {
+        _mediator = mediator;
+        _cache = cache;
+    }
 
     [HttpGet("")]
     public async Task<IActionResult> GetProducts()
@@ -20,6 +26,11 @@ public class ProductsController : Controller
     }
 
     [HttpGet("Categories")]
-    public async Task<IActionResult> GetProductSubcategories() => Ok(await _mediator.Send(new ProductSubcategoriesList.Query()));
+    public async Task<IActionResult> GetProductSubcategories()
+    {
+        var categories = await _mediator.Send(new ProductSubcategoriesList.Query());
+
+        return Ok(categories);
+    }
 
 }

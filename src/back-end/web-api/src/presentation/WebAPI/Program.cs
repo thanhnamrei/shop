@@ -1,6 +1,5 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
 using ProductAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +28,17 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
+services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = configuration.GetConnectionString("RedisConnection");
+    options.InstanceName = "REI_";
+});
+
+services.AddOutputCache(options =>
+{
+    options.AddBasePolicy(build => build.Cache());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,20 +53,20 @@ app.UseHttpsRedirection();
 app.UseCors();
 
 //
-app.UseResponseCaching();
+//app.UseResponseCaching();
 
-app.Use(async (context, next) =>
-{
-    context.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
-    {
-        Public = true,
-        MaxAge = TimeSpan.FromSeconds(10)
-    };
+//app.Use(async (context, next) =>
+//{
+//    context.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
+//    {
+//        Public = true,
+//        MaxAge = TimeSpan.FromSeconds(10)
+//    };
 
-    context.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
+//    context.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
 
-    await next();
-});
+//    await next();
+//});
 
 app.UseAuthorization();
 
