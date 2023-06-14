@@ -4,23 +4,21 @@ using ProductAPI.Services;
 
 namespace ProductAPI.Queries;
 
-public class GetProductSubcategoriesQuery
+public class GetProductSubcategoriesQuery : IRequest<List<ProductSubcategory>>
 {
-    public class Query : IRequest<List<ProductSubcategory>>
-    { }
+}
 
-    public class Handler : IRequestHandler<Query, List<ProductSubcategory>>
-    {
-        private readonly IProductService _productService;
+public class GetProductSubcategoriesQueryHandler : IRequestHandler<GetProductSubcategoriesQuery, List<ProductSubcategory>>
+{
+	private readonly IProductService _productService;
 
-        public Handler(IProductService productService)
-        {
-            _productService = productService;
-        }
+	public GetProductSubcategoriesQueryHandler(IProductService productService)
+	{
+		_productService = productService;
+	}
 
-        public async Task<List<ProductSubcategory>> Handle(Query request, CancellationToken cancellationToken)
-        {
-            return await _productService.GetProductSubcategories();
-        }
-    }
+	public async Task<List<ProductSubcategory>> Handle(GetProductSubcategoriesQuery request, CancellationToken cancellationToken)
+	{
+		return await _productService.GetProductSubcategories();
+	}
 }

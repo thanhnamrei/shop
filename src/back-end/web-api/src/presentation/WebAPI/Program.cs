@@ -1,6 +1,9 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
 using ProductAPI;
+using Application;
+using System.Reflection;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -12,31 +15,34 @@ services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionSt
 
 // Add services to the container
 services.AddProductApiServices();
+services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+services.AddApplication();
 
 services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins("*");
-    });
+	options.AddDefaultPolicy(policy =>
+	{
+		policy.WithOrigins("*");
+	});
 });
 
 services.AddResponseCaching();
+services.AddSignalR();
 
 services.AddControllers();
-
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
 services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = configuration.GetConnectionString("RedisConnection");
-    options.InstanceName = "REI_";
+	options.Configuration = configuration.GetConnectionString("RedisConnection");
+	options.InstanceName = "REI_";
 });
 
 services.AddOutputCache(options =>
 {
-    options.AddBasePolicy(build => build.Cache());
+	options.AddBasePolicy(build => build.Cache());
 });
 
 var app = builder.Build();
@@ -44,8 +50,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
@@ -71,6 +77,5 @@ app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 app.Run();
