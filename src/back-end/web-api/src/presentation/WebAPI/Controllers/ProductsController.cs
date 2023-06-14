@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using ProductAPI.Commands;
 using ProductAPI.Model;
 using ProductAPI.Queries;
 
@@ -33,5 +34,8 @@ public class ProductsController : Controller
 
         return Ok(categories);
     }
+
+    [HttpPost("ProductReviews")]
+    public async Task<IActionResult> CreateProductReview(CreateProductReviewCommand command) => Ok(await _mediator.Send(command));
 
 }
