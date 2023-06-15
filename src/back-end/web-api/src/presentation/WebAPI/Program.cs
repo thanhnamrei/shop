@@ -1,6 +1,9 @@
+using Application;
 using Data;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using ProductAPI;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -10,21 +13,25 @@ var services = builder.Services;
 var connectionString = configuration.GetConnectionString("SqlServerConnection");
 services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
+// Add FluentValidation
+services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
 // Add services to the container
-services.AddProductAPIServices();
+services.AddProductApiServices();
+services.AddApplication();
+
 
 services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins("*");
-    });
+    options.AddDefaultPolicy(policy => policy.WithOrigins("*"));
 });
 
 services.AddResponseCaching();
+services.AddSignalR();
 
 services.AddControllers();
-
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
@@ -68,9 +75,9 @@ app.UseCors();
 //    await next();
 //});
 
+
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 app.Run();

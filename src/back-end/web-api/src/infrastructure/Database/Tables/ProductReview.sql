@@ -6,5 +6,6 @@
 	[EmailAddress] NVARCHAR(50) NOT NULL,
 	[Rating] INT NOT NULL,
 	[Comments] NVARCHAR(500),
-	[ModifiedDate] DATETIME
+	[ModifiedDate] DATETIME,
+	PRIMARY KEY ([ProductId],[EmailAddress])
 )

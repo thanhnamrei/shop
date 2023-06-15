@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\core\Application\Application.csproj" />
     <ProjectReference Include="..\..\infrastructure\Data\Data.csproj" />
   </ItemGroup>
 
@@ -15,15 +16,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="MediatR" Version="11.1.0" />
-	  <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Remove="MediatR.Extensions.Microsoft.DependencyInjection" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Commands\" />
 	</ItemGroup>
 </Project>
