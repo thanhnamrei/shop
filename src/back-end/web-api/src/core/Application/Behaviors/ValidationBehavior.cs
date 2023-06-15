@@ -1,32 +1,33 @@
 ﻿using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ValidationException = Application.Exceptions.ValidationException;
 
 namespace Application.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-	   where TRequest : IRequest<TResponse>
+       where TRequest : IRequest<TResponse>
 {
-	private readonly IEnumerable<IValidator<TResponse>> _validators;
+    private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-	public ValidationBehavior(IEnumerable<IValidator<TResponse>> validators)
-	{
-		_validators = validators;
-	}
+    public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
+    {
+        _validators = validators;
+    }
 
-	public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
-	{
-		if (!_validators.Any()) return await next();
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    {
+        if (!_validators.Any()) return await next();
 
-		var context = new ValidationContext<TRequest>(request);
-		var validationReuslts = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+        var context = new ValidationContext<TRequest>(request);
+        var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
 
-		var failures = validationReuslts.SelectMany(r => r.Errors).Where(f => f != null).ToList();
 
-		return await next();
-	}
+        var failures = validationResults
+            .SelectMany(r => r.ToDictionary())
+            .ToDictionary(kv => kv.Key, kv => kv.Value);
+
+        if (failures.Any()) throw new ValidationException(failures);
+
+        return await next();
+    }
 }
