@@ -1,6 +1,6 @@
-export type Global = {}
+export type Global = {};
 
 export type Entity = {
-    id: string;
-    createdAt: number
-}
+  id: string;
+  createdAt: number;
+};
