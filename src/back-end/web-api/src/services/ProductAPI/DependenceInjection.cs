@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Reflection;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using ProductAPI.Commands;
 using ProductAPI.Services;
@@ -12,8 +13,7 @@ public static class DependenceInjection
         services.AddScoped<IProductService, ProductService>();
         services.AddTransient<IValidator<CreateProductReviewCommand>, CreateProductReviewCommandValidator>();
 
-
-        //services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         return services;
     }
