@@ -20,14 +20,7 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, List<Pr
 
     public async Task<List<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
     {
-        var products = new List<Product>();
-        //await _productService.GetProductsAsync(request.CategoryId);
-
-        //if (products.Any())
-        //{
-        var first = products.FirstOrDefault(x => x.Size == "S", new Product());
-        Console.WriteLine(first.Color);
-        //}
+        var products = await _productService.GetProductsAsync(request.CategoryId);
 
         return products;
     }
