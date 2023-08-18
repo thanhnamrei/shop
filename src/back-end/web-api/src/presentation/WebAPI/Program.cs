@@ -22,10 +22,12 @@ services.AddMediatR(cfg =>
 services.AddProductApiServices();
 services.AddApplication();
 
-
 services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy => policy.WithOrigins("*"));
+    options.AddDefaultPolicy(policy => policy
+        .WithOrigins("http://localhost:3000/")
+        .AllowAnyHeader()
+        .AllowAnyMethod());
 });
 
 services.AddResponseCaching();
@@ -74,7 +76,6 @@ app.UseCors();
 
 //    await next();
 //});
-
 
 app.UseAuthorization();
 
