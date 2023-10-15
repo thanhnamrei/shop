@@ -1,9 +1,13 @@
 using Application;
 using Data;
+using DesignPatternAPI;
+using DesignPatternAPI.Strategy;
 using FluentValidation;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using ProductAPI;
 using System.Reflection;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -16,16 +20,15 @@ services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionSt
 // Add FluentValidation
 services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+	cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 // Add services to the container
 services.AddProductApiServices();
 services.AddApplication();
 
-
 services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy => policy.WithOrigins("*"));
+	options.AddDefaultPolicy(policy => policy.WithOrigins("*"));
 });
 
 services.AddResponseCaching();
@@ -37,13 +40,13 @@ services.AddSwaggerGen();
 
 services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = configuration.GetConnectionString("RedisConnection");
-    options.InstanceName = "REI_";
+	options.Configuration = configuration.GetConnectionString("RedisConnection");
+	options.InstanceName = "REI_";
 });
 
 services.AddOutputCache(options =>
 {
-    options.AddBasePolicy(build => build.Cache());
+	options.AddBasePolicy(build => build.Cache());
 });
 
 var app = builder.Build();
@@ -51,33 +54,29 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
 app.UseCors();
 
-//
-//app.UseResponseCaching();
-
-//app.Use(async (context, next) =>
-//{
-//    context.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
-//    {
-//        Public = true,
-//        MaxAge = TimeSpan.FromSeconds(10)
-//    };
-
-//    context.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
-
-//    await next();
-//});
-
-
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/dspt-behavior", (IEnumerable<SearchMachine> searchMachines) =>
+{
+});
+
+app.MapGet("/strategy/{sort}", (string sort) =>
+{
+	var sortableCollection = new SortableCollection(new List<string> { "A", "B", "C" });
+	sortableCollection.SortStrategy = sort == "asc" ? new SortAscendingStrategy() : new SortDescendingStrategy();
+	sortableCollection.Sort();
+
+	return JsonSerializer.Serialize(sortableCollection.Items);
+});
 
 app.Run();

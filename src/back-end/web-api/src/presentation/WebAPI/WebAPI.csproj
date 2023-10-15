@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\services\DesignPatternAPI\DesignPatternAPI.csproj" />
     <ProjectReference Include="..\..\services\ProductAPI\ProductAPI.csproj" />
   </ItemGroup>
 
