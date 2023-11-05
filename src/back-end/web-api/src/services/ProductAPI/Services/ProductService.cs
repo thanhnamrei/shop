@@ -23,7 +23,7 @@ public class ProductService : IProductService
 	public async Task<List<Product>> GetProductsAsync(int categoryId)
 	{
 		return await _context.Products
-			//.Include(p => p.ProductSubcategory)
+			.Include(p => p.ProductSubcategory)
 			.Include(p => p.ProductReviews)
 			//.Where(p => query == null || p.ProductSubcategoryId == query.CategoryId)
 			.ToListAsync();
