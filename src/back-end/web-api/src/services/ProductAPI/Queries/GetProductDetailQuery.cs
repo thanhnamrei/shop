@@ -2,29 +2,26 @@
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ProductAPI.Services;
 
 namespace ProductAPI.Queries;
 
 public class GetProductDetailQuery : IRequest<Product?>
 {
-	public int Id { get; set; }
+    public int Id { get; set; }
 }
 
 public class GetProductDetailQueryHandler : IRequestHandler<GetProductDetailQuery, Product?>
 {
-	private readonly AppDbContext _context;
+    private readonly IProductService _productService;
 
-	public GetProductDetailQueryHandler(AppDbContext context)
-	{
-		_context = context;
-	}
+    public GetProductDetailQueryHandler(IProductService productService)
+    {
+        _productService = productService;
+    }
 
-	public async Task<Product?> Handle(GetProductDetailQuery request, CancellationToken cancellationToken)
-	{
-		var product = await _context.Products
-			.Include(p => p.ProductReviews)
-			.FirstOrDefaultAsync(p => p.Id == request.Id);
-
-		return product;
-	}
+    public async Task<Product?> Handle(GetProductDetailQuery request, CancellationToken cancellationToken)
+    {
+        return await _productService.GetProductById(request.Id);
+    }
 }

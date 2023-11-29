@@ -1,48 +1,67 @@
-﻿using Data;
-using Domain.Entities;
+﻿using Domain.Entities;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using ProductAPI.Hub;
+using ProductAPI.Services;
 
 namespace ProductAPI.Commands;
 
 public class CreateProductReviewCommand : IRequest<Unit>
 {
-	public int ProductId { get; set; }
-	public string ReviewerName { get; set; }
-	public DateTime? ReviewDate { get; set; } = DateTime.Now;
-	public string EmailAddress { get; set; }
-	public string Comments { get; set; }
+    public int ProductId { get; set; }
+    public string ReviewerName { get; set; } = string.Empty;
+    public DateTime? ReviewDate { get; set; } = DateTime.Now;
+    public string EmailAddress { get; set; } = string.Empty;
+    public string Comments { get; set; } = string.Empty;
+    public int Rating { get; set; }
+}
+
+public class CreateProductReviewCommandValidator : AbstractValidator<CreateProductReviewCommand>
+{
+    public CreateProductReviewCommandValidator()
+    {
+        RuleFor(c => c.ProductId)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage("ProductId is required.");
+
+        RuleFor(c => c.ReviewerName)
+            .NotEmpty()
+            .WithMessage("ReviewerName is required.");
+
+        RuleFor(c => c.EmailAddress)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage("EmailAddress is required.");
+    }
 }
 
 public class CreateProductReviewCommandHandler : IRequestHandler<CreateProductReviewCommand, Unit>
 {
-	private readonly AppDbContext _context;
-	private readonly IHubContext<ProductHub> _hubContext;
+    private readonly IProductReviewService _productReviewService;
+    private readonly IHubContext<ProductHub> _hubContext;
 
-	public CreateProductReviewCommandHandler(AppDbContext context, IHubContext<ProductHub> hubContext)
-	{
-		_context = context;
-		_hubContext = hubContext;
-	}
+    public CreateProductReviewCommandHandler(IProductReviewService productReviewService, IHubContext<ProductHub> hubContext)
+    {
+        _productReviewService = productReviewService;
+        _hubContext = hubContext;
+    }
 
-	public async Task<Unit> Handle(CreateProductReviewCommand request, CancellationToken cancellationToken)
-	{
-		var entity = new ProductReview
-		{
-			ProductId = request.ProductId,
-			ReviewerName = request.ReviewerName,
-			EmailAddress = request.EmailAddress,
-			Comments = request.Comments,
-			ReviewDate = request.ReviewDate ?? DateTime.Now,
-		};
+    public async Task<Unit> Handle(CreateProductReviewCommand request, CancellationToken cancellationToken)
+    {
+        var entity = new ProductReview
+        {
+            ProductId = request.ProductId,
+            ReviewerName = request.ReviewerName,
+            EmailAddress = request.EmailAddress,
+            Comments = request.Comments,
+            ReviewDate = request.ReviewDate ?? DateTime.Now,
+            Rating = request.Rating,
+        };
 
-		_context.ProductReviews.Add(entity);
+        await _productReviewService.AddReview(entity);
 
-		await _hubContext.Clients.All.SendAsync("ProductReviewAdded");
-
-		await _context.SaveChangesAsync(cancellationToken);
-
-		return Unit.Value;
-	}
+        return Unit.Value;
+    }
 }

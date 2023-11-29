@@ -9,6 +9,6 @@ internal class ProductReviewEntityTypeConfiguration : IEntityTypeConfiguration<P
     {
         builder
             .ToTable("ProductReview", schema: "Production")
-            .HasKey(nameof(ProductReview.ProductId), nameof(ProductReview.EmailAddress));
+            .HasKey(nameof(ProductReview.Id));
     }
 }
